@@ -2,7 +2,7 @@
   <div>
     <h1 class="page_title">Alle Veranstaltungen</h1>
     <nuxt keep-alive :keep-alive-props="{ max: 10 }" />
-    <p v-if="$fetchState.pending"><NuxtLoadingIndicator /></p>
+    <p v-if="$fetchState.pending">Bitte Warten...</p>
     <p v-else-if="$fetchState.error">An error occurred :(</p>
     <div v-else >
       <div v-for="location in all_locations">
@@ -19,7 +19,7 @@
       <br>
       <div>
         <div class="card" v-for="event in filtering">
-        <NuxtLink :to="`/${event['@id']}/${event.name}`">
+        <a :href="`/${event['@id']}/${event.name}`">
         <h2 v-if="event['name'].length>30" class="card_heading">{{event['name'].substring(0,30)+"..."}}</h2>
         <h2 v-else class="card_heading">{{event['name']}}</h2>
       <!-- <img :src="event.image[0]['dc:originalUrl']" width="50" height="50"/> -->
@@ -27,7 +27,7 @@
       <p class="card_location">{{ event.location[0]?.address?.addressLocality||"Keine Angabe" }}<br>{{ event.location[0]?.address?.streetAddress||"" }}</p> 
       <br>  
       <p>Veranstaltungstyp: {{ event.location[0]['@type'][1].includes(":")? event.location[0]['@type'][1].split(':')[1] :event.location[0]['@type'][1] }}</p>
-    </NuxtLink> 
+    </a> 
     </div> 
       </div>
     </div>
@@ -133,9 +133,7 @@ return day+"."+month+"."+year
 
 </script>
 <style>
-body{
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
+
 .content{
   padding: 10px;
   text-align: center;
@@ -146,8 +144,8 @@ body{
 }
 .card{
   border-radius: 10px;
-  -webkit-box-shadow: 5px 5px 14px -6px #000000; 
-  box-shadow: 5px 5px 14px -6px #000000;
+  -webkit-box-shadow: 5px 5px 14px -6px #292d76; 
+  box-shadow: 5px 5px 14px -6px #292d76;
   width: 25vw;
   display: inline-block;
   margin: 10px;
@@ -156,7 +154,7 @@ body{
   max-height: 25vw;
 }
 .card:hover{
-  background-color: ghostwhite;
+  background-color: #292d764f;
   cursor: pointer;
 }
 .card_heading{
@@ -164,6 +162,7 @@ body{
   max-height: 1.5vw;
   padding: 15px;
   padding-bottom: 20px;
+  color: #292d76;
 }
 .card_location{
   max-height: 1vw;
@@ -180,9 +179,10 @@ a{
   border-bottom: 1px black;
   /* -webkit-box-shadow: 5px 5px 14px -6px #000000; 
   box-shadow: 5px 5px 14px -6px #000000; */
-  background-color: aliceblue;
+  background-color: #292d76;
   display: inline-block;
   padding: 10px;
+  color: white;
 }
 .filter_checkboxes{
 float: left;
@@ -192,13 +192,17 @@ padding-right: 15px;
 
 input[type="checkbox"] {
 
-    width: calc(25px - 6px);
-    height: calc(25px - 6px);
-    border-radius: 5px;
-    left: 3px;
-    top: 3px;
-    background-color: #e6e6e6;
+  width: calc(25px - 6px);
+  height: calc(25px - 6px);
+  border-radius: 5px;
+  left: 3px;
+  top: 3px;
+  background-color: #e6e6e6;
 
+}
+
+a:active{
+  color: black;
 }
 
 
