@@ -8,13 +8,40 @@
       <div v-for="location in all_locations">
       {{ filter_location(location.location[0]?.address?.addressLocality) }}
       </div>
-      <div class="filter_locations" ><h2>Veranstaltungen filtern</h2>
+      <div class="filter_locations" ><h2>Veranstaltungen nach Location filtern</h2>
         <div class="filter_checkboxes" v-for="(location, index) in filter_locations_data" :key="index">
         <input type="checkbox" v-model="set_location" :id="index" :name="location" :value="location">
         <label :for="location">{{ location }}</label>
-      </div>
+        </div>
         <br clear="all">
-
+      </div>
+      <div class="filter_locations" ><h2>Veranstaltungen nach Monat filtern</h2>
+        <div class="filter_checkboxes">
+        <input type="checkbox" v-model="find_date" id="01" name="Jänner" value="01">
+        <label for="01">Jänner</label>
+        <input type="checkbox" v-model="find_date" id="02" name="Februar" value="02">
+        <label for="01">Februar</label>
+        <input type="checkbox" v-model="find_date" id="03" name="März" value="03">
+        <label for="01">März</label>
+        <input type="checkbox" v-model="find_date" id="04" name="April" value="04">
+        <label for="01">April</label>
+        <input type="checkbox" v-model="find_date" id="05" name="Mai" value="05">
+        <label for="01">Mai</label>
+        <input type="checkbox" v-model="find_date" id="06" name="Juni" value="06">
+        <label for="01">Juni</label>
+        <input type="checkbox" v-model="find_date" id="07" name="Juli" value="07">
+        <label for="01">Juli</label>
+        <input type="checkbox" v-model="find_date" id="08" name="August" value="08">
+        <label for="01">August</label>
+        <input type="checkbox" v-model="find_date" id="09" name="September" value="09">
+        <label for="01">September</label>
+        <input type="checkbox" v-model="find_date" id="10" name="Oktober" value="10">
+        <label for="01">Oktober</label>
+        <input type="checkbox" v-model="find_date" id="11" name="November" value="11">
+        <label for="01">November</label>
+        <input type="checkbox" v-model="find_date" id="12" name="Dezember" value="12">
+        <label for="01">Dezember</label>
+      </div>
       </div>
       <br>
       <div>
@@ -45,7 +72,8 @@ export default{
       events:[],
       all_locations:[],
       filter_locations_data:[],
-      set_location:[]
+      set_location:[],
+      find_date:[]
     }
   },
   head(){
@@ -98,6 +126,7 @@ export default{
   },
   computed:{
     filtering(){
+      console.log(this.find_date.length)
       if(this.set_location.length!=0){
         var filtered_array=[]
       const filtered=this.events.find(
@@ -105,7 +134,23 @@ export default{
               if(this.set_location.includes(el.location[0]?.address?.addressLocality)){
                 filtered_array.push(el)
               }
-              console.log(el.location[0]?.address?.addressLocality)
+            })
+        if(filtered_array){
+          console.log(filtered_array)
+          return filtered_array
+
+        }
+      }else if(this.find_date.length!=0){
+        console.log(this.find_date)
+        var filtered_array=[]
+      const filtered=this.events.find(
+            (el,index)=>{
+              const date=new Date(el['startDate'])
+              const month = date.toLocaleString("default", { month: "2-digit" });
+              console.log(month)
+              if(this.find_date.includes(month)){
+                filtered_array.push(el)
+              }
             })
         if(filtered_array){
           console.log(filtered_array)
@@ -115,6 +160,7 @@ export default{
       }else{
         return this.events
       }
+
     }
   },
   loadingIndicator: {
