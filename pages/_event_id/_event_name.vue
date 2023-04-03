@@ -2,10 +2,10 @@
     <div>
         <h1 class="title">Event Name: {{this.$route.params.event_name}}</h1>
      <div class="info">
-        <div class="info_img"><img class="picture" v-if="event.image[0]['dc:originalUrl']" :src="event.image[0]['dc:originalUrl']"/></div>
+        <div class="info_img"><img class="picture" v-if="event.image" :src="event.image[0]['dc:originalUrl']"/></div>
     <div class="info_data">
         <div class="info_data_event">
-        <span class="info_title">Zum Event</span>
+        <span class="info_title">Event Info</span>
         <p>Von: {{ convert_date(event.startDate) }}</p>
         <p>Bis: {{ convert_date(event.endDate) }}</p>
         <div v-if="event['eventSchedule'].length!=1">Termine: 
@@ -23,7 +23,7 @@
     </div>
      </div>
      <div class="info_sub">
-        <span class="location">Ort: {{ event.location[0]?.address?.streetAddress }} {{ event.location[0]?.address?.postalCode }}-{{ event.location[0]?.address?.addressLocality }}</span>
+        <span class="location" v-if="event.location[0].address">Ort: {{ event.location[0]?.address?.streetAddress }} {{ event.location[0]?.address?.postalCode }}-{{ event.location[0]?.address?.addressLocality }}</span>
         <span class="performer" v-if="event.performer">Veranstalter: {{ event.performer[0].name }}</span> 
         <span class="organizer" v-if="event.organizer">Organisator: {{ event.organizer[0].name}}</span>
      </div>   
@@ -78,7 +78,8 @@ export default {
     text-align: center;
 }
 .picture{
-    width:100%;
+    width:50%;
+    margin-left: 25%;
 
 }
 .info_img{
